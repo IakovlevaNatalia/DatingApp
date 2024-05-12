@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { NavComponent } from './nav/nav.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [
+    CommonModule, 
+    NavComponent]
 })
 export class AppComponent implements OnInit {
   title = 'Dating app';
