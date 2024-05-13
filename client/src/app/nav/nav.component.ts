@@ -1,23 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵprovideZonelessChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AccountService } from '../_services/account.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
   model: any = {}
+  loggedIn=false;
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    console.log(this.model);
+    this.accountService.login(this.model).subscribe({
+      next: response => {
+        console.log(response);
+        this.loggedIn = true;
+      },
+      error: error=> console.log(error)
+    })
   }
 
 }
