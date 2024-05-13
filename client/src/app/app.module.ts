@@ -8,10 +8,13 @@ import {AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavComponent } from './nav/nav.component';
 
 
 @NgModule({
   declarations: [
+   /* AppComponent,
+    NavComponent*/
   ],
   imports: [
     AppComponent,
@@ -21,8 +24,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule,
     CommonModule,
     BsDatepickerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NavComponent
   ],
-  providers: []
+  providers: [],
+  /*bootstrap: [AppComponent]*/
+  
 })
 export class AppModule { }
