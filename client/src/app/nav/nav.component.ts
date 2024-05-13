@@ -2,12 +2,14 @@ import { Component, OnInit, ɵprovideZonelessChangeDetection } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { error } from 'console';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
@@ -29,6 +31,10 @@ export class NavComponent implements OnInit {
       },
       error: error=> console.log(error)
     })
+  }
+
+  logout () {
+    this.loggedIn=false;
   }
 
 }
