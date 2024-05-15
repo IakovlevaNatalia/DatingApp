@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
+  providers: [
+  ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })

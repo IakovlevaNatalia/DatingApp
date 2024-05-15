@@ -10,8 +10,13 @@ import { NavComponent } from './nav/nav.component';
   standalone: true,
   imports: [
     CommonModule, 
-    NavComponent]
+    NavComponent
+  ],
+
+  providers: [
+  ]
 })
+
 export class AppComponent implements OnInit {
   title = 'Dating app';
   users: any;
