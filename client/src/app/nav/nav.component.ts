@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { error } from 'console';
 import { CommonModule } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { User } from '../user';
 
 @Component({
   selector: 'app-nav',
@@ -19,26 +21,18 @@ import { CommonModule } from '@angular/common';
 export class NavComponent implements OnInit {
   model: any = {}
   loggedIn=false;
+  currentUser$: Observable<User | null> = of(null);
 
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.getCurrentUser();
-  }
-
-  getCurrentUser ()
-  {
-    this.accountService.currentUser$.subscribe({
-      next:user => this.loggedIn = !!user,
-      error: error => console.log(error)
-    })
+    this.currentUser$=this.accountService.currentUser$;
   }
 
   login() {
     this.accountService.login(this.model).subscribe({
       next: response => {
         console.log(response);
-        this.loggedIn = true;
       },
       error: error=> console.log(error)
     })
@@ -46,7 +40,6 @@ export class NavComponent implements OnInit {
 
   logout () {
     this.accountService.logout();
-    this.loggedIn=false;
   }
 
 }

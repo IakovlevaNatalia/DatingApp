@@ -5,7 +5,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="loggedIn">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="accountService.currentUser$| async">
           <li class="nav-item">
             <a class="nav-link" href="#">Matches</a>
           </li>
@@ -17,7 +17,7 @@
           </li>
         </ul>
 
-        <div class="dropdown" *ngIf="loggedIn" dropdown>
+        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
           <a class="dropdown-toggle text-light text-decoration-none" data-bs-toggle="dropdown" dropdownToggle>Welcome user</a>
           <div class="dropdown-menu" dropdownMenu>
             <a class="dropdown-item">Edit Profile</a>
@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <form *ngIf="!loggedIn" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+        <form *ngIf="!(accountService.currentUser$| async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
           <input
               name="username"
               [(ngModel)]="model.username"
