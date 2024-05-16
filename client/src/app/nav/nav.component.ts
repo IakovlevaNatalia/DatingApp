@@ -1,10 +1,7 @@
 import { Component, OnInit, ɵprovideZonelessChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
-import { error } from 'console';
 import { CommonModule } from '@angular/common';
-import { Observable, of } from 'rxjs';
-import { User } from '../user';
 
 @Component({
   selector: 'app-nav',
