@@ -21,12 +21,10 @@ import { User } from '../user';
 export class NavComponent implements OnInit {
   model: any = {}
   loggedIn=false;
-  currentUser$: Observable<User | null> = of(null);
 
-  constructor(private accountService: AccountService) { }
+  constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.currentUser$=this.accountService.currentUser$;
   }
 
   login() {

@@ -4,19 +4,19 @@ import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { AccountService } from './_services/account.service';
 import { User } from './user';
+import { HomeComponent } from "./home/home.component";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  standalone: true,
-  imports: [
-    CommonModule, 
-    NavComponent
-  ],
-
-  providers: [
-  ]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: true,
+    providers: [],
+    imports: [
+        CommonModule,
+        NavComponent,
+        HomeComponent
+    ]
 })
 
 export class AppComponent implements OnInit {
