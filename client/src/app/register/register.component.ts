@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from '../home/home.component';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent implements OnInit {
   @Input() usersFromHomeComponent: any;
+  @Output() cancelRegister = new EventEmitter(); 
   model: any = {}
 
   constructor () {}
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
   }
 
   cancel () {
-    console.log('cancelled');
+    this.cancelRegister.emit(false);
+    console.log("блять заебал этот ангулар сраный");
   }
 
 }
