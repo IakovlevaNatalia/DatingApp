@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { AccountService } from './_services/account.service';
 import { User } from './user';
 import { HomeComponent } from "./home/home.component";
+import { RegisterComponent } from './register/register.component';
 
 @Component({
     selector: 'app-root',
@@ -15,28 +15,19 @@ import { HomeComponent } from "./home/home.component";
     imports: [
         CommonModule,
         NavComponent,
-        HomeComponent
+        HomeComponent,
+        RegisterComponent
     ]
 })
 
 export class AppComponent implements OnInit {
   title = 'Dating app';
-  users: any;
 
-  constructor(private http: HttpClient, private accountService: AccountService) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.getUsers();
     this.setCurrentUser();
   }
-
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe({
-      next: (response: any) => this.users = response,
-      error: (error: any) => console.log(error),
-      complete: () => console.log('Request has completed')
-      })
-    }
 
   setCurrentUser() {
     const userString = localStorage.getItem('user');
