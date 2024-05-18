@@ -31,7 +31,5 @@ export class RegisterComponent implements OnInit {
 
   cancel () {
     this.cancelRegister.emit(false);
-    console.log("блять заебал этот ангулар сраный");
   }
-
 }
