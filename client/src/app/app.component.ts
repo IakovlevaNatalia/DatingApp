@@ -5,6 +5,11 @@ import { AccountService } from './_services/account.service';
 import { User } from './user';
 import { HomeComponent } from "./home/home.component";
 import { RegisterComponent } from './register/register.component';
+import { RouterModule } from '@angular/router';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailsComponent } from './members/member-details/member-details.component';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +21,12 @@ import { RegisterComponent } from './register/register.component';
         CommonModule,
         NavComponent,
         HomeComponent,
-        RegisterComponent
+        RegisterComponent,
+        RouterModule,
+        MemberListComponent,
+        MemberDetailsComponent,
+        ListsComponent,
+        MessagesComponent
     ]
 })
 
