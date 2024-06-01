@@ -7,7 +7,7 @@ import { MemberDetailsComponent } from './members/member-details/member-details.
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'members', component: MemberListComponent},
   {path: 'members/:id', component: MemberDetailsComponent},
@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
 
-@NgModule({
+/*/*@NgModule({
   declarations: [],
   imports: [
     CommonModule,
@@ -31,4 +31,4 @@ export class AppRoutingModule { }
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}**/
+**/

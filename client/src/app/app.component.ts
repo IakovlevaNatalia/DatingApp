@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+/** тут ошибка Local storage import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { AccountService } from './_services/account.service';
@@ -45,31 +45,57 @@ export class AppComponent implements OnInit {
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
   }
-}
+}*/
 
-/*import { HttpClient } from '@angular/common/http';
-import { RouterOutlet } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NavComponent } from './nav/nav.component';
+import { AccountService } from './_services/account.service';
+import { User } from './user';
+import { HomeComponent } from "./home/home.component";
+import { RegisterComponent } from './register/register.component';
+import { RouterModule } from '@angular/router';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailsComponent } from './members/member-details/member-details.component';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  providers: [],
+  imports: [
+    CommonModule,
+    NavComponent,
+    HomeComponent,
+    RegisterComponent,
+    RouterModule,
+    MemberListComponent,
+    MemberDetailsComponent,
+    ListsComponent,
+    MessagesComponent
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'Dating app';
-  users: any;
 
-  constructor (private http: HttpClient) {}
+  constructor(private accountService: AccountService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
-    this.http.get('https://localhost:5001/api/users').subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error),
-      complete: () => console.log('Request has completed')
-    })
+    this.setCurrentUser();
   }
-  
-}*/
+
+  setCurrentUser() {
+    if (isPlatformBrowser(this.platformId)) {
+
+      const userString = localStorage.getItem('user');
+      if(!userString) return;
+      const user: User = JSON.parse(userString);
+      this.accountService.setCurrentUser(user);
+    }
+  }
+}
