@@ -1,4 +1,4 @@
-/** тут ошибка Local storage import { Component, OnInit } from '@angular/core';
+/** тут ошибка Local storageimport { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { AccountService } from './_services/account.service';
@@ -91,7 +91,6 @@ export class AppComponent implements OnInit {
 
   setCurrentUser() {
     if (isPlatformBrowser(this.platformId)) {
-
       const userString = localStorage.getItem('user');
       if(!userString) return;
       const user: User = JSON.parse(userString);

@@ -2,13 +2,16 @@ import { Component, OnInit, ɵprovideZonelessChangeDetection } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule,
+    RouterOutlet
   ],
   providers: [
   ],
