@@ -61,6 +61,8 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
+import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-root',
@@ -77,7 +79,9 @@ import { isPlatformBrowser } from '@angular/common';
     MemberListComponent,
     MemberDetailsComponent,
     ListsComponent,
-    MessagesComponent
+    MessagesComponent,
+    BsDropdownModule,
+    ToastrModule
   ]
 })
 export class AppComponent implements OnInit {

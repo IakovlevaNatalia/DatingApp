@@ -6,6 +6,7 @@ using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 
 namespace API.Controllers
 {
@@ -50,14 +51,14 @@ namespace API.Controllers
             var user = await context.Users.SingleOrDefaultAsync(x =>
                 x.UserName == loginDto.Username);
             
-            if (user == null) return Unauthorized();
+            if (user == null) return Unauthorized("\"Invalid User Name\"");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("\"Invalid Password\"");
             }
 
             return new UserDto
