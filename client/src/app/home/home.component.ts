@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RegisterComponent } from "../register/register.component";
 import { HttpClient } from '@angular/common/http';
 
@@ -14,10 +14,9 @@ import { HttpClient } from '@angular/common/http';
     ]
 })
 export class HomeComponent implements OnInit{
+  http = inject(HttpClient);
   registerMode=false;
   users: any;
-
-  constructor (private http: HttpClient) {}
 
   ngOnInit(): void {
     this.getUsers();

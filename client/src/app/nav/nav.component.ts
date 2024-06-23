@@ -1,10 +1,11 @@
-import { Component, OnInit, ɵprovideZonelessChangeDetection } from '@angular/core';
+import { Component, OnInit, inject, ɵprovideZonelessChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-nav',
@@ -15,6 +16,9 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     RouterModule,
     RouterOutlet,
     ToastrModule,
+    BsDropdownModule,
+    RouterLink,
+    RouterLinkActive
     
   ],
   providers: [
@@ -22,20 +26,18 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
+  accountService = inject(AccountService);
+  private router = inject (Router);
+  private toastr = inject (ToastrService);
   model: any = {}
-  loggedIn=false;
-
-  constructor(public accountService: AccountService, private router: Router, 
-    private toastr: ToastrService) { }
-
-  ngOnInit(): void {
-  }
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: _ => this.router.navigateByUrl('/members'),
-      error: error => {console.log(error); this.toastr.error(error.error)}
+      next: _ =>  {
+        this.router.navigateByUrl('/members')
+      },
+      error: error => this.toastr.error(error.error)
     })
   }
 

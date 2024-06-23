@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { response } from 'express';
 import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../user';
@@ -8,19 +8,16 @@ import { User } from '../user';
   providedIn: 'root'
 })
 export class AccountService {
+  private http = inject(HttpClient);
   baseUrl = 'https://localhost:5001/api/';
-  private currentUserSource = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSource.asObservable();
-
-  constructor(private http: HttpClient) { }
+  currentUser = signal<User | null>(null);
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe (
-      map((response: User) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem('user', JSON.stringify(user))
-          this.currentUserSource.next(user);
+      map(user => {
+          if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUser.set(user);
         }
       })
     )
@@ -31,7 +28,7 @@ export class AccountService {
       map(user=> {
         if(user) {
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.currentUser.set(user);
         }
         return user;
       })
@@ -39,11 +36,11 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
-    this.currentUserSource.next(user);
+    this.currentUser.set(user);
   }
 
     logout() {
       localStorage.removeItem('user');
-      this.currentUserSource.next(null);
+      this.currentUser.set(null);
   }
 }

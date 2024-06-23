@@ -1,10 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HomeComponent } from '../home/home.component';
-import { CommonModule } from '@angular/common';
 import { AccountService } from '../_services/account.service';
-import { response } from 'express';
-import { error } from 'console';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -12,30 +8,25 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [
     FormsModule,
-    HomeComponent,
-    CommonModule,
     ToastrModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent implements OnInit {
-   @Output() cancelRegister = new EventEmitter(); 
+export class RegisterComponent {
+   private accountService = inject (AccountService);
+   private toastr = inject (ToastrService);
+   cancelRegister = output<boolean>();
   model: any = {}
 
-  constructor (private accountService: AccountService, private toastr: ToastrService) {}
-
-  ngOnInit(): void {
-
-  }
-
-  register () {
+    register () {
     this.accountService.register(this.model).subscribe({
-      next: () => {
+      next: response => {
+        console.log(response);
         this.cancel();
       },
       error: error => this.toastr.error(error.error)
-    })
+      })
   }
 
   cancel () {
