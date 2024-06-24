@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ɵprovideZonelessChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
@@ -18,8 +18,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ToastrModule,
     BsDropdownModule,
     RouterLink,
-    RouterLinkActive
-    
+    RouterLinkActive,
+    TitleCasePipe    
   ],
   providers: [
   ],
