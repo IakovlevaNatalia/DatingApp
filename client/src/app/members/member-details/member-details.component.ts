@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { MemberListComponent } from '../member-list/member-list.component';
 import { RouterModule } from '@angular/router';
-import { ListsComponent } from '../../lists/lists.component';
-import { MessagesComponent } from '../../messages/messages.component';
 
 @Component({
   selector: 'app-member-details',
@@ -10,8 +8,6 @@ import { MessagesComponent } from '../../messages/messages.component';
   imports: [
     MemberListComponent,
     RouterModule,
-    ListsComponent,
-    MessagesComponent
 
   ],
   templateUrl: './member-details.component.html',
