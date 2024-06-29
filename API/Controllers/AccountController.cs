@@ -25,7 +25,9 @@ namespace API.Controllers
         {
             if(await UserExists(registerDto.UserName)) return BadRequest("Username is taken");
 
-            using var hmac = new HMACSHA512();
+            return Ok();
+
+            /*using var hmac = new HMACSHA512();
 
             var user = new AppUser
             {
@@ -42,14 +44,14 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = tokenService.CreateToken(user)
-            };
+            };*/
         }
 
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await context.Users.SingleOrDefaultAsync(x =>
-                x.UserName == loginDto.Username);
+                x.UserName == loginDto.Username.ToLower());
             
             if (user == null) return Unauthorized("\"Invalid User Name\"");
 
