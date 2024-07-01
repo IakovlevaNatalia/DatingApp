@@ -33,8 +33,9 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
     .WithOrigins("https://localhost:4200", "https://localhost:4200"));
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers();
 

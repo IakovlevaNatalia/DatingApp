@@ -1,13 +1,13 @@
 ﻿using API.Entities;
 
-namespace API.Interfaces
+namespace API;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        void Update (AppUser  user);
-        Task<bool> SaveAllAsync();
-        Task<IEnumerable<AppUser>> GetUsersAsync();
-        Task<AppUser?> GetUserByIdAsync (int id);
-        Task<AppUser?> GetUserByNameAsync (string username);
-    }
+    void Update (AppUser user);
+    Task<bool> SaveAllAsync();
+    Task<IEnumerable<AppUser>> GetUsersAsync();
+    Task<AppUser?> GetUserByIdAsync (int id);
+    Task<AppUser?> GetUserByUsernameAsync (string username);
 }
+
