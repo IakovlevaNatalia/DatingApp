@@ -2,9 +2,9 @@
 
     public static class DateTimeExtensions
     {
-        public static int CalculateAge(this DateOnly dob)
+        public static int CalculateAge(this DateTime dob)
         {
-            var today = DateOnly.FromDateTime(DateTime.Now);
+            var today = DateTime.Now;
 
             var age = today.Year - dob.Year;
 
