@@ -13,13 +13,13 @@ namespace API.Data.Migrations
             migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordHash",
                 table: "Users",
-                type: "BLOB",
+                type: "varbinary(max)",
                 nullable: true);
 
             migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordSalt",
                 table: "Users",
-                type: "BLOB",
+                type: "varbinary(max)",
                 nullable: true);
         }
 

@@ -29,6 +29,7 @@ namespace API.Data
                 user.PasswordSalt = hmac.Key;
 
                 context.Users.Add(user);
+                context.Photos.AddRange(user.Photos);
             }
 
             await context.SaveChangesAsync();
