@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
     provideClientHydration(), 
-    provideHttpClient(withInterceptors([errorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor])),
     provideAnimations(),
     provideToastr({positionClass: 'toast-bottom-right'})
   ]
