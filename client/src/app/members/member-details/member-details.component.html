@@ -1,1 +1,37 @@
-<h1>{{member?.knownAs}}</h1>
+@if (member) {
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <img
+                 src="{{member.photoURL || 'assets/user.png'}}"
+                 alt = "{{member.knownAs}}"
+                 class="card-img img-thumbnail"
+                >
+                <div class="card-body">
+                    <div>
+                        <strong>Location:</strong>
+                        <p>{{member.city}}, {{member.country}}</p>
+                    </div>
+                    <div>
+                        <strong>Age:</strong>
+                        <p>{{member.age}}</p>
+                    </div>
+                    <div>
+                        <strong>Last Active:</strong>
+                        <p>{{member.lastActive}}</p>
+                    </div>
+                    <div>
+                        <strong>Member since:</strong>
+                        <p>{{member.created}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group d-flex">
+                        <button class="btn btn-primary">Like</button>
+                        <button class="btn btn-success">Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
