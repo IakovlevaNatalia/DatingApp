@@ -2,12 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../_models/member';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 
 @Component({
   selector: 'app-member-details',
   standalone: true,
-  imports: [],
+  imports: [TabsModule],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css'
 })
@@ -27,5 +28,4 @@ export class MemberDetailsComponent implements OnInit {
      next: member => this.member = member 
     })
   }
-
 }
