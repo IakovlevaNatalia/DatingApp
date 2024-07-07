@@ -44,7 +44,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper): Ba
 
             mapper.Map(memberUpdateDto, user);
 
-            userRepository.Update(user);
+            // userRepository.Update(user);
         
             if (await userRepository.SaveAllAsync()) return NoContent();
 
