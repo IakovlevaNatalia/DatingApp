@@ -21,6 +21,7 @@ export class MemberEditComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+
   member?: Member;
   private accountService = inject(AccountService);
   private memberService = inject(MembersService);
@@ -45,6 +46,10 @@ export class MemberEditComponent implements OnInit {
         this.editForm?.reset(this.member);
       }
     })
+   }
+
+   onMemberChange(event: Member) {
+    this.member = event;
    }
   }
 
