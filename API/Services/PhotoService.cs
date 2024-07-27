@@ -32,6 +32,8 @@ namespace API.Services
                         .Height(500).Width(500).Crop("fill").Gravity("face"),
                     Folder = "da-net8"
                 };
+
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
 
             return uploadResult;

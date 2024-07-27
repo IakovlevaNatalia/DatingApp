@@ -22,7 +22,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCurrentUser();
+   //if (typeof localStorage !== 'undefined') {
+    //this.setCurrentUser();
+   //}
   }
+  
 
     setCurrentUser() {
       const userString = localStorage.getItem('user');
