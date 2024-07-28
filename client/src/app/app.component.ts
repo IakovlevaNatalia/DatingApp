@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './nav/nav.component';
 import { AccountService } from './_services/account.service';
@@ -8,7 +8,6 @@ import { User } from './_models/user';
 
 
 @Component({
-  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
@@ -17,15 +16,12 @@ import { User } from './_models/user';
   ]
 })
 export class AppComponent implements OnInit {
-  private accountService = inject(AccountService);
+  private accountService = Inject(AccountService);
   users: any;
 
   ngOnInit(): void {
     this.setCurrentUser();
-   //if (typeof localStorage !== 'undefined') {
-    //this.setCurrentUser();
-   //}
-  }
+   }
   
 
     setCurrentUser() {
