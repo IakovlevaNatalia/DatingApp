@@ -25,7 +25,7 @@
         <input
             type ="password"
             class="form-control"
-            formControlName="ConfirmPassword"
+            formControlName="confirmPassword"
             placeholder="Confirm Password"
         >
         <label>Confirm Password</label>
@@ -37,3 +37,5 @@
     </div>
 </form>
 
+<p>Form value: {{registerForm.value | json}}</p>
+<p>Form status: {{registerForm.status | json}}</p>
