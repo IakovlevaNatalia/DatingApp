@@ -1,26 +1,15 @@
-import { Component, OnInit, inject, ɵprovideZonelessChangeDetection } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
-import { CommonModule, TitleCasePipe } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
-import { Router } from '@angular/router';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
   imports: [
-    FormsModule,
-    CommonModule,
-    RouterModule,
-    RouterOutlet,
-    ToastrModule,
-    BsDropdownModule,
-    RouterLink,
-    RouterLinkActive,
-    TitleCasePipe    
-  ],
+    FormsModule, BsDropdownModule, RouterLink, RouterLinkActive],
   providers: [
   ],
   templateUrl: './nav.component.html',
