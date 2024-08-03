@@ -38,11 +38,15 @@ public class UserRepository (DataContext context, IMapper mapper) : IUserReposit
 
         query = query.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <= maxDob);
 
-            
+        query = userParams.OrderBy switch
+        {
+            "created" => query.OrderByDescending(x => x.Created),
+            _ => query.OrderByDescending(x => x.LastActive)
+        };
+        
         return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(mapper.ConfigurationProvider),
             userParams.PageNumber, userParams.PageSize);
     }
-
     public async Task<MemberDto?> GetMemberAsync(string username)
     {
         return await context.Users
@@ -50,19 +54,16 @@ public class UserRepository (DataContext context, IMapper mapper) : IUserReposit
             .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
     }
-
     public async Task<IEnumerable<AppUser>> GetUsersAsync()
     {
         return await context.Users
             .Include(x=>x.Photos)
             .ToListAsync();
     }
-
     public async Task<bool> SaveAllAsync()
     {
         return await context.SaveChangesAsync() > 0;
     }
-
     public void Update(AppUser user)
     {
         context.Entry(user).State = EntityState.Modified;
