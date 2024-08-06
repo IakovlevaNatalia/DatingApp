@@ -1,12 +1,10 @@
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Member } from '../_models/member';
-import { of, tap } from 'rxjs';
 import { Photo } from '../_models/photo';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
-
 
 @Injectable({
   providedIn: 'root'
@@ -15,25 +13,35 @@ export class MembersService {
 
   private http = inject (HttpClient);
   baseUrl = environment.apiUrl;
-  //members = signal<Member[]>([]);
-  paginatedResult = signal<PaginatedResult<Member[]> | null>(null);
-  
-  getMembers(UserParams: UserParams) {
-    let params = this.setPaginationHeaders(UserParams.pageNumber, UserParams.pageSize);
 
-    params = params.append('minAge', UserParams.minAge);
-    params = params.append('maxAge', UserParams.maxAge);
-    params = params.append('gender', UserParams.gender);
-    params = params.append('orderBy', UserParams.orderBy);
+  paginatedResult = signal<PaginatedResult<Member[]> | null>(null);
+  memberCache = new Map();
+  
+  getMembers(userParams: UserParams) {
+    const response = this.memberCache.get(Object.values(UserParams).join('-'));
+
+    if (response) return this.setPaginatedResponse(response);
+
+    let params = this.setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
 
     return this.http.get<Member[]>(this.baseUrl + 'users', {observe: 'response', params}).subscribe({
       next: response => {
-        this.paginatedResult.set({
-          items: response.body as Member[],
-          pagination: JSON.parse(response.headers.get('Pagination')!)
-         })
+        this.setPaginatedResponse(response);
+        this.memberCache.set(Object.values(userParams).join('-'), response);
        }
     })
+  }
+
+  private setPaginatedResponse(response: HttpResponse<Member[]>) {
+    this.paginatedResult.set({
+      items: response.body as Member[],
+      pagination: JSON.parse(response.headers.get('Pagination')!)
+     })
   }
 
   private setPaginationHeaders(pageNumber: number, pageSize: number) {
