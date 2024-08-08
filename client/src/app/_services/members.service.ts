@@ -5,6 +5,8 @@ import { Member } from '../_models/member';
 import { Photo } from '../_models/photo';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
+import { of } from 'rxjs';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +14,33 @@ import { UserParams } from '../_models/userParams';
 export class MembersService {
 
   private http = inject (HttpClient);
+  private accountService = inject(AccountService);
   baseUrl = environment.apiUrl;
-
   paginatedResult = signal<PaginatedResult<Member[]> | null>(null);
   memberCache = new Map();
+  user = this.accountService.currentUser();
+  userParams = signal<UserParams>(new UserParams(this.user));
+
+  resetUserParams() {
+    this.userParams.set(new UserParams(this.user));
+  }
   
-  getMembers(userParams: UserParams) {
-    const response = this.memberCache.get(Object.values(UserParams).join('-'));
+  getMembers() {
+    const response = this.memberCache.get(Object.values(this.userParams()).join('-'));
 
     if (response) return this.setPaginatedResponse(response);
 
-    let params = this.setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    let params = this.setPaginationHeaders(this.userParams().pageNumber, this.userParams().pageSize);
 
-    params = params.append('minAge', userParams.minAge);
-    params = params.append('maxAge', userParams.maxAge);
-    params = params.append('gender', userParams.gender);
-    params = params.append('orderBy', userParams.orderBy);
+    params = params.append('minAge', this.userParams().minAge);
+    params = params.append('maxAge', this.userParams().maxAge);
+    params = params.append('gender', this.userParams().gender);
+    params = params.append('orderBy', this.userParams().orderBy);
 
     return this.http.get<Member[]>(this.baseUrl + 'users', {observe: 'response', params}).subscribe({
       next: response => {
         this.setPaginatedResponse(response);
-        this.memberCache.set(Object.values(userParams).join('-'), response);
+        this.memberCache.set(Object.values(this.userParams()).join('-'), response);
        }
     })
   }
@@ -55,9 +63,11 @@ export class MembersService {
   }
 
   getMember (username: string) {
-    // const member = this.members().find(x => x.username === username);
-    // if (member !== undefined) return of(member);
+    const member: Member = [...this.memberCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.body), [])
+      .find((m: Member) => m.username === username);
 
+      if (member) return of(member);
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
