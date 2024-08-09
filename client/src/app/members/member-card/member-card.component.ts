@@ -11,8 +11,20 @@ import { LikesService } from '../../_services/likes.service';
   styleUrl: './member-card.component.css'
 })
 export class MemberCardComponent {
-  private likesService = inject(LikesService);
+  private likeService = inject(LikesService);
   member = input.required<Member>();
-  hasLiked = computed(() => this.likesService.likeIds().includes(this.member().id))
+  hasLiked = computed(() => this.likeService.likeIds().includes(this.member().id));
+
+  toggleLike() {
+    this.likeService.toggleLike(this.member().id).subscribe({
+      next: () => {
+        if (this.hasLiked()) {
+          this.likeService.likeIds.update(ids => ids.filter(x => x !== this.member().id))
+        } else {
+          this.likeService.likeIds.update(ids => [...ids, this.member().id])
+        }
+      }
+    })
+  }
 
 }
