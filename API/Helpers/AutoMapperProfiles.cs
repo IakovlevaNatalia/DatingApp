@@ -19,5 +19,6 @@ namespace API.Helpers
             CreateMap<RegisterDto, AppUser>();
             CreateMap<string, DateOnly>().ConvertUsing(s => DateOnly.Parse(s));
         }
+
     }
 }

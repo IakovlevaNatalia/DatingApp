@@ -42,7 +42,7 @@ namespace API.Data
                 case "liked":
                     return await likes
                         .Where(x => x.SourceUserId == userId)
-                        .Select(x => x.TargetUserId)
+                        .Select(x => x.TargetUser)
                         .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
                         .ToListAsync();
                 case "likedBy":
