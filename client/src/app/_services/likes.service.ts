@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/pagination';
 import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
-import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'

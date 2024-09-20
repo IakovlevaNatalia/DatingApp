@@ -7,7 +7,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { of } from 'rxjs';
 import { AccountService } from './account.service';
-import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
+import { getPaginatedResult, getPaginatedResponse, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +29,9 @@ export class MembersService {
   getMembers() {
     const response = this.memberCache.get(Object.values(this.userParams()).join('-'));
 
-    if (response) return setPaginatedResponse(response, this.paginatedResult);
+    if (response) return getPaginatedResponse(response, this.paginatedResult);
 
-    let params = setPaginationHeaders(this.userParams().pageNumber, this.userParams().pageSize);
+    let params = getPaginationHeaders(this.userParams().pageNumber, this.userParams().pageSize);
 
     params = params.append('minAge', this.userParams().minAge);
     params = params.append('maxAge', this.userParams().maxAge);
@@ -40,7 +40,7 @@ export class MembersService {
 
     return this.http.get<Member[]>(this.baseUrl + 'users', {observe: 'response', params}).subscribe({
       next: response => {
-        setPaginatedResponse(response, this.paginatedResult);
+        getPaginatedResponse(response, this.paginatedResult);
         this.memberCache.set(Object.values(this.userParams()).join('-'), response);
        }
     })
@@ -88,6 +88,13 @@ export class MembersService {
       //   }))
       // })
     )
+  }
+  getLikes (predicate: string, pageNumber: number, pageSize: number) {
+    let params = getPaginationHeaders(pageNumber, pageSize);
+
+    params = params.append('predicate', predicate);
+
+    return getPaginatedResult<Member[]>(this.baseUrl + 'likes', params, this.http); 
   }
 }
 
