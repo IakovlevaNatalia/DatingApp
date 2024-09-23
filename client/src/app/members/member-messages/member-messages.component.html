@@ -1,1 +1,44 @@
-<p>member-messages works!</p>
+<div class="card">
+    <div class="card-body">
+        @if (messages.length === 0) {
+            <p>No messages yet</p>
+        } @else {
+            <ul class="chat">
+                @for (message of messages; track message.id) {
+                    <li>
+                        <div>
+                            <span class="chat-img float-end">
+                                <img class="rounded-circle"
+                                    src="{{message.senderPhotoUrl || './assets/user.png'}}"
+                                    alt="Image of message sender"
+                                >
+                            </span>
+                            <div class="chat-body">
+                                <div class="header">
+                                    <small class="text-muted">
+                                        <span class="fa fa-clock-0">{{message.messageSent |timeago}}</span>
+                                        @if(!message.dateRead && message.senderUsername !== username()) {
+                                            <span class="text-danger">(unread)</span>
+                                        }
+                                        @if(!message.dateRead && message.senderUsername !== username()) {
+                                            <span class="text-success">(read{{message.dateRead | timeago}})</span>
+                                        }
+                                        <span class="text-danger"></span>
+                                    </small>
+                                </div>
+                                <p>{{message.content}}</p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        <div class="card-footer">
+            <form>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" placeholder="Send a private message">
+                        <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
