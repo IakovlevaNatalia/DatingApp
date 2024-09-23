@@ -19,7 +19,7 @@ import { MessageService } from '../_services/message.service';
 })
 export class MessagesComponent {
 messageService = inject(MessageService);
-container = 'Inbox';
+container = 'Unred';
 pageNumber = 1;
 pageSize = 5;
 
