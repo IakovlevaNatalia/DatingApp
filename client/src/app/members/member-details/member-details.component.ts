@@ -29,9 +29,21 @@ export class MemberDetailsComponent implements OnInit {
   messages: Message[] = [];
 
   ngOnInit(): void {
-    this.loadMember()
+    this.loadMember();
+
+    this.route.queryParams.subscribe({
+      next: params => {
+        params['tab'] && this.selectTab(params['tab'])
+      }
+    })
   }
   
+  selectTab(heading: string) {
+    if (this.membertTabs) {
+      const messageTab = this.membertTabs.tabs.find(x =>x.heading === heading);
+        if (messageTab) messageTab.active = true;
+    }
+  }
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0 && this.member) {
