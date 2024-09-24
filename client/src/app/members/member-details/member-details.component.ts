@@ -19,17 +19,24 @@ import { MessageService } from '../../_services/message.service';
   styleUrl: './member-details.component.css'
 })
 export class MemberDetailsComponent implements OnInit {
-  @ViewChild('memberTabs') membertTabs?: TabsetComponent;
+  @ViewChild('memberTabs', {static:true}) membertTabs?: TabsetComponent;
   private messageService = inject(MessageService);
   private memberService = inject (MembersService);
   private route = inject(ActivatedRoute);
-  member?: Member;
+  member: Member = {} as Member;
   images: GalleryItem[] = [];
   activeTab?: TabDirective;
   messages: Message[] = [];
 
   ngOnInit(): void {
-    this.loadMember();
+    this.route.data.subscribe({
+      next: data => {
+        this.member = data ['member'];
+        this.member && this.member.photos.map(p => {
+          this.images.push(new ImageItem({src: p.url, thumb: p.url}))
+         })
+      }
+    })
 
     this.route.queryParams.subscribe({
       next: params => {
@@ -53,7 +60,7 @@ export class MemberDetailsComponent implements OnInit {
   }
 }
 
-  loadMember() {
+ /* loadMember() {
     const username = this.route.snapshot.paramMap.get('username');
     if(!username) return;
     this.memberService.getMember(username).subscribe({
@@ -64,5 +71,5 @@ export class MemberDetailsComponent implements OnInit {
        })
       }
     })
-  }
+  }*/
 }
