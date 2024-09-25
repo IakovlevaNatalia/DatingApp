@@ -7,6 +7,8 @@ import { MessageService } from '../_services/message.service';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
+import { Message } from '../_models/message';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-messages',
@@ -19,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     PaginationModule,
     ButtonsModule,
     FormsModule,
-    RouterLink
+    RouterLink, 
+    TimeagoModule
   ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css'
@@ -38,6 +41,23 @@ ngOnInit(): void {
 
 loadMessages() {
   this.messageService.getMessages(this.pageNumber, this.pageSize, this.container);
+}
+deleteMessage(id: number) {
+  this.messageService.deleteMessage(id).subscribe({
+    next: _ => {
+      this.messageService.paginatedResult.update(prev => {
+        if (prev && prev.items) {
+          prev.items.splice(prev.items.findIndex(m => m.id === id), 1);
+          return prev;
+        }
+        return prev;
+      })
+    }
+  })
+}
+getRoute(message: Message) {
+  if (this.container === 'Outbox') return `/members/${message.recipientUsername}`;
+  else return `/members/${message.senderUsername}`;
 }
 pageChanged(event: any) {
   if (this.pageNumber !== event.page) {
