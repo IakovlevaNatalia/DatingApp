@@ -1,9 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink, RouterModule } from '@angular/router';
 import { MemberListComponent } from '../members/member-list/member-list.component';
 import { MemberDetailsComponent } from '../members/member-details/member-details.component';
 import { ListsComponent } from '../lists/lists.component';
 import { MessageService } from '../_services/message.service';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-messages',
@@ -12,7 +15,11 @@ import { MessageService } from '../_services/message.service';
     RouterModule,
     MemberListComponent,
     MemberDetailsComponent,
-    ListsComponent
+    ListsComponent,
+    PaginationModule,
+    ButtonsModule,
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css'
@@ -22,6 +29,7 @@ messageService = inject(MessageService);
 container = 'Unred';
 pageNumber = 1;
 pageSize = 5;
+isOutbox = this.container === 'Outbox';
 
 
 ngOnInit(): void {
