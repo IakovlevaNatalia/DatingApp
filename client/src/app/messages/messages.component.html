@@ -55,7 +55,7 @@
     </table>
 }
 
-@if (!messageService.paginatedResult()?.pagination && messageService.paginatedResult()?.pagination?.totalItems! > 0) {
+@if (messageService.paginatedResult()?.pagination && messageService.paginatedResult()?.pagination?.totalItems! > 0) {
     <div class="d-flex justify-content-center">
         <pagination 
             [boundaryLinks]="true" 

@@ -12,6 +12,7 @@ export class MessageService {
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
   paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
+  messageThread = signal<Message[]>([]);
 
     getMessages(pageNumber: number, pageSize: number, container: string) 
   {

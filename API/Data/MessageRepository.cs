@@ -59,13 +59,13 @@ namespace API.Data
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u=> u.Recipient).ThenInclude(p =>p.Photos)
-                .Where(
-                    m => m.RecipientUsername == currentUserName 
-                        && m.RecipientDeleted == false
-                        && m.SenderUsername == recipientUserName || 
+                .Where(m => 
+                    m.RecipientUsername == currentUserName 
+                       && m.RecipientDeleted == false
+                       && m.SenderUsername == recipientUserName || 
                     m.SenderUsername == currentUserName
-                        && m.SenderDeleted == false
-                        && m.RecipientUsername == recipientUserName
+                       && m.SenderDeleted == false
+                       && m.RecipientUsername == recipientUserName
                    )
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();

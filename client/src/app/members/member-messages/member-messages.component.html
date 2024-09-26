@@ -21,7 +21,7 @@
                                             <span class="text-danger">(unread)</span>
                                         }
                                         @if(!message.dateRead && message.senderUsername !== username()) {
-                                            <span class="text-success">(read{{message.dateRead | timeago}})</span>
+                                            <span class="text-success">(read {{message.dateRead | timeago}})</span>
                                         }
                                         <span class="text-danger"></span>
                                     </small>
