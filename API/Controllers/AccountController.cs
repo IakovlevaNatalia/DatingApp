@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -43,7 +42,7 @@ namespace API.Controllers
                     .FirstOrDefaultAsync(x =>
                         x.UserName == loginDto.Username.ToLower());
             
-            if (user == null) return Unauthorized("\"Invalid User Name\"");
+            if (user == null || user.UserName == null) return Unauthorized("\"Invalid User Name\"");
 
             return new UserDto
             {
@@ -56,7 +55,7 @@ namespace API.Controllers
         }
         private async Task<bool> UserExists(string username)
         {
-            return await context.Users.AnyAsync(x => x.UserName == username.ToLower());
+            return await context.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper());
         }
 
     }

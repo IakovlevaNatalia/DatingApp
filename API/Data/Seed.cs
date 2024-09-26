@@ -23,10 +23,8 @@ namespace API.Data
             {
                 using var hmac = new HMACSHA512();
 
-                user.UserName = user.UserName.ToLower();
-
                 context.Users.Add(user);
-                context.Photos.AddRange(user.Photos);
+               // context.Photos.AddRange(user.Photos);
             }
 
             await context.SaveChangesAsync();
