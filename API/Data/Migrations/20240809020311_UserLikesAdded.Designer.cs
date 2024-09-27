@@ -138,11 +138,11 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    //b.HasOne("API.Entities.AppUser", "TargetUser")
-                    //    .WithMany("LikedByUsers")
-                    //    .HasForeignKey("TargetUserId")
-                    //    .OnDelete(DeleteBehavior.NoAction)
-                    //    .IsRequired();
+                    b.HasOne("API.Entities.AppUser", "TargetUser")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("SourceUser");
 
