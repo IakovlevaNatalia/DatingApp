@@ -135,14 +135,14 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.AppUser", "SourceUser")
                         .WithMany("LikedUsers")
                         .HasForeignKey("SourceUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.AppUser", "TargetUser")
-                        .WithMany("LikedByUsers")
-                        .HasForeignKey("TargetUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    //b.HasOne("API.Entities.AppUser", "TargetUser")
+                    //    .WithMany("LikedByUsers")
+                    //    .HasForeignKey("TargetUserId")
+                    //    .OnDelete(DeleteBehavior.NoAction)
+                    //    .IsRequired();
 
                     b.Navigation("SourceUser");
 
