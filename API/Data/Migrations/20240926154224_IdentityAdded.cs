@@ -321,7 +321,7 @@ namespace API.Data.Migrations
                 column: "TargetUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Messages_AspNetUsers_RecipientId",
