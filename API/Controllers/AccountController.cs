@@ -2,6 +2,7 @@
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -10,8 +11,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class AccountController (UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper) : BaseApiController
+    public class AccountController : BaseApiController
     {
+        private readonly UserManager<AppUser> userManager;
+        private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
+
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
+        {
+            this.userManager = userManager;
+            this.tokenService = tokenService;
+            this.mapper = mapper;
+        }
+
         [HttpPost("register")] //Post: api/account/register
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
