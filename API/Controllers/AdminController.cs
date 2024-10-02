@@ -25,7 +25,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
-        [Authorize(Policy = "RequiredAdminRole")]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, string roles)
         {
