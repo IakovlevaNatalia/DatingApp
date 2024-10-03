@@ -1,6 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AdminService } from '../../_services/admin.service';
 import { User } from '../../_models/user';
+import { RolesModalComponent } from '../../modals/roles-modal/roles-modal.component';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { title } from 'process';
+import { initialState } from 'ngx-bootstrap/timepicker/reducer/timepicker.reducer';
 
 @Component({
   selector: 'app-user-management',
@@ -11,10 +15,23 @@ import { User } from '../../_models/user';
 })
 export class UserManagementComponent implements OnInit {
   private adminService = inject(AdminService);
+  private modalService = inject (BsModalService);
   users: User[] = [];
+  bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
 
   ngOnInit(): void {
     this.getUsersWithRoles();
+  }
+
+  openRolesModal() {
+    const initialState: ModalOptions = {
+      class: 'modal-lg',
+      initialState: {
+        title: 'User roles',
+        list: ['Admin', 'Moderator', 'Member']
+      }
+    }
+    this.bsModalRef = this.modalService.show(RolesModalComponent, initialState);
   }
 
   getUsersWithRoles() {
@@ -22,6 +39,5 @@ export class UserManagementComponent implements OnInit {
       next: users => this.users = users
     })
   }
-
 
 }
