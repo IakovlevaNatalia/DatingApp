@@ -21,8 +21,7 @@ public class Program
         builder.Services.AddApplicationServices(builder.Configuration);
         builder.Services.AddIdentityServices(builder.Configuration);
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddCors();
+
 
         app = builder.Build();
 
@@ -35,15 +34,9 @@ public class Program
 
         app.UseMiddleware<ExceptionMiddleware>();
 
-        //app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
-        // .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
-        app.UseCors(x => x
-            .WithOrigins("http://localhost:4200", "https://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-        );
+        app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+                .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
         app.UseHttpsRedirection();
 
