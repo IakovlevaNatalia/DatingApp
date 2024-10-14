@@ -4,15 +4,35 @@ import { HttpClient } from '@angular/common/http';
 import { PaginatedResult } from '../_models/pagination';
 import { Message } from '../_models/message';
 import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
   baseUrl = environment.apiUrl;
+  hubUrl = environment.hubsUrl;
   private http = inject(HttpClient);
+  private hubConnection?: HubConnection;
   paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
   messageThread = signal<Message[]>([]);
+
+  createHubConnection(user: User, otherUserName: string) {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.hubUrl + 'message?user=' + otherUserName,  {
+        accessTokenFactory: () => user.token
+      })
+      .withAutomaticReconnect()
+      .build()
+
+    this.hubConnection.start().catch(error => console.log(error));
+
+    this.hubConnection.on('ReceiveMessageThread', messages => {
+      this.messageThread.set(messages);
+      
+    })
+  }
 
     getMessages(pageNumber: number, pageSize: number, container: string) 
   {
