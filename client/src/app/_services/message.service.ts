@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { PaginatedResult } from '../_models/pagination';
 import { Message } from '../_models/message';
 import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -32,6 +32,11 @@ export class MessageService {
       this.messageThread.set(messages);
       
     })
+  }
+  stopHubConnection() {
+    if (this.hubConnection?.state === HubConnectionState.Connected) {
+      this.hubConnection.stop().catch(error => console.log(error))
+    }
   }
 
     getMessages(pageNumber: number, pageSize: number, container: string) 
