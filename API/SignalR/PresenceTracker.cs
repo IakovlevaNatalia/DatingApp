@@ -34,6 +34,7 @@
                     OnLineUsers.Remove(username);
                 }
             }
+
             return Task.CompletedTask;
         }
 
@@ -46,6 +47,25 @@
             }
 
             return Task.FromResult(onlineUsers);
+        }
+
+        public static Task<List<string>> GetConnectionsForUser(string username)
+        {
+            List<string> connectionIds;
+
+            if (OnLineUsers.TryGetValue(username, out var connections))
+            {
+                lock (connections)
+                {
+                    connectionIds = connections.ToList();
+                }
+            }
+            else
+            {
+                connectionIds = [];
+            }
+
+            return Task.FromResult(connectionIds);
         }
     }
 }
