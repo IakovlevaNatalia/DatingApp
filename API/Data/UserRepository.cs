@@ -60,10 +60,6 @@ public class UserRepository (DataContext context, IMapper mapper) : IUserReposit
             .Include(x=>x.Photos)
             .ToListAsync();
     }
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
     public void Update(AppUser user)
     {
         context.Entry(user).State = EntityState.Modified;
