@@ -10,20 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Authorize]
-    public class MessagesController : BaseApiController
+    public class MessagesController (IUnitOfWork unitOfWork,
+        IMapper mapper) : BaseApiController
     {
-        private readonly IUserRepository userRepository;
-        private readonly IMessageRepository messageRepository;
-        private readonly IMapper mapper;
-
-        public MessagesController (IUserRepository userRepository, IMessageRepository messageRepository,
-            IMapper mapper)
-        {
-            mapper=mapper;
-            userRepository=userRepository;
-            messageRepository=messageRepository;
-        }
-
+       
         [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
@@ -32,8 +22,8 @@ namespace API.Controllers
             if (username == createMessageDto.RecipientUsername.ToLower())
                 return BadRequest("You cannot send messages to yourself");
 
-            var sender = await userRepository.GetUserByUsernameAsync(username);
-            var recipient = await userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
+            var sender = await unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var recipient = await unitOfWork.UserRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
 
             if (recipient == null || sender == null || sender.UserName == null || recipient.UserName == null) 
                 return BadRequest("Cannot send message at this time");
@@ -47,25 +37,21 @@ namespace API.Controllers
                 Content = createMessageDto.Content
             };
 
-            messageRepository.AddMessage(message);
+           unitOfWork.MessageRepository.AddMessage(message);
 
-            if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
+            if (await unitOfWork.Complete()) return Ok(mapper.Map<MessageDto>(message));
 
             return BadRequest("Failed to send message");
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<MessageDto>>> GetMessagesForUser(
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser(
             [FromQuery] MessageParams messageParams)
         {
             messageParams.Username = User.GetUsername();
 
-            var messages = await messageRepository.GetMessagesForUser(messageParams);
+            var messages = await unitOfWork.MessageRepository.GetMessagesForUser(messageParams);
 
-           /* Response.AddPaginatonHeader(new PaginationHeader(messages.CurrentPage, messages.PageSize,
-                messages.TotalCount, messages.TotalPages));
-
-            return messages;*/
            Response.AddPaginatonHeader(messages);
            return messages;
         }
@@ -75,14 +61,14 @@ namespace API.Controllers
         {
             var currentUsername = User.GetUsername();
 
-            return Ok(await messageRepository.GetMessageThread(currentUsername, username));
+            return Ok(await unitOfWork.MessageRepository.GetMessageThread(currentUsername, username));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMessage(int id)
         {
             var username = User.GetUsername();
-            var message = await messageRepository.GetMessage(id);
+            var message = await unitOfWork.MessageRepository.GetMessage(id);
 
             if (message == null) return BadRequest("Cannot delete this message");
 
@@ -95,10 +81,10 @@ namespace API.Controllers
 
             if (message is { SenderDeleted: true, RecipientDeleted: true })
             {
-                messageRepository.DeleteMessage(message);
+                unitOfWork.MessageRepository.DeleteMessage(message);
             }
 
-            if (await messageRepository.SaveAllAsync()) return Ok();
+            if (await unitOfWork.Complete()) return Ok();
 
             return BadRequest("Problem deleting the message");
         }

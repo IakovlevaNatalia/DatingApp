@@ -99,14 +99,10 @@ namespace API.Data
             var unreadMessages = messages.Where(m => m.DateRead == null 
                 && m.RecipientUsername == currentUserName).ToList();
 
-            if (unreadMessages.Any())
+            if (unreadMessages.Count != 0)
             {
-                foreach (var message in unreadMessages)
-                {
-                    message.DateRead = DateTime.UtcNow;
-                }
+                unreadMessages.ForEach(x => x.DateRead = DateTime.UtcNow);
 
-                await context.SaveChangesAsync();
             }
 
             return messages;
