@@ -16,8 +16,6 @@ export class ConfirmDialogComponent {
   btnCancelText = '';
   result = false;
 
-
-
   confirm() {
     this.result = true;
     this.bsModalRef.hide();
