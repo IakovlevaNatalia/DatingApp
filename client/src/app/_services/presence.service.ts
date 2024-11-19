@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../_models/user';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { take } from 'rxjs';
 
 
@@ -28,11 +28,11 @@ export class PresenceService {
       this.hubConnection.start().catch(error => console.log(error));
 
       this.hubConnection.on('UserIsOnline', username => {
-        this.onlineUsers.update(users => [...users, username]);
+        this.toastr.warning(username + ' has connected');
     });
 
       this.hubConnection.on('UserIsOffline', username => {
-        this.onlineUsers.update(users => users.filter(x => x !== username));
+        this.toastr.warning(username + ' has disconnected');
     })
 
       this.hubConnection.on('GetOnlineUsers', usernames => {
