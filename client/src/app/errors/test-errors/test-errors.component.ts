@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { error } from 'console';
 import { environment } from '../../../environments/environment';
 
 @Component({
