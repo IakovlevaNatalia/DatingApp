@@ -16,8 +16,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             if (error.error.errors) {
               const modalStateErrors = [];
               for (const key in error.error.errors) {
-                if(error.error.errors [key]) {
-                  modalStateErrors.push (error.error.errors [key])
+                if(error.error.errors[key]) {
+                  modalStateErrors.push(error.error.errors[key])
                 }
               }
               throw modalStateErrors.flat();
