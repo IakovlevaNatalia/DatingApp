@@ -22,7 +22,7 @@ export class AccountService {
       return Array.isArray(role) ? role : [role];
     }
     return [];
-  } )
+  })
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe (
@@ -36,7 +36,7 @@ export class AccountService {
 
   register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
-      map(user=> {
+      map(user => {
         if(user) {
           this.setCurrentUser(user);
         }
