@@ -5,16 +5,14 @@ import { Member } from '../_models/member';
 import { Photo } from '../_models/photo';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
-import { of } from 'rxjs';
+import { of, tap} from 'rxjs';
 import { AccountService } from './account.service';
 import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class MembersService {
-
   private http = inject (HttpClient);
   private accountService = inject(AccountService);
   baseUrl = environment.apiUrl;
@@ -53,6 +51,7 @@ export class MembersService {
       .find((m: Member) => m.username === username);
 
       if (member) return of(member);
+      
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 

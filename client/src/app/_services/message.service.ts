@@ -7,6 +7,7 @@ import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { User } from '../_models/user';
 import { Group } from '../_models/group';
+import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,13 @@ export class MessageService {
   baseUrl = environment.apiUrl;
   hubUrl = environment.hubsUrl;
   private http = inject(HttpClient);
+  private busyService = inject(BusyService);
   hubConnection?: HubConnection;
   paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
   messageThread = signal<Message[]>([]);
 
   createHubConnection(user: User, otherUserName: string) {
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'message?user=' + otherUserName,  {
         accessTokenFactory: () => user.token
@@ -27,12 +30,14 @@ export class MessageService {
       .withAutomaticReconnect()
       .build()
 
-    this.hubConnection.start().catch(error => console.log(error));
+    this.hubConnection.start()
+    .catch(error => console.log(error))
+    .finally(() => this.busyService.idle());
 
     this.hubConnection.on('ReceiveMessageThread', messages => {
       this.messageThread.set(messages)
-      
     });
+
     this.hubConnection.on('NewMessage', message => {
       this.messageThread.update(messages => [...messages, message])
     });
@@ -50,14 +55,14 @@ export class MessageService {
       }
     })
   }
+
   stopHubConnection() {
     if (this.hubConnection?.state === HubConnectionState.Connected) {
       this.hubConnection.stop().catch(error => console.log(error))
     }
   }
 
-    getMessages(pageNumber: number, pageSize: number, container: string) 
-  {
+  getMessages(pageNumber: number, pageSize: number, container: string) {
     let params = setPaginationHeaders(pageNumber, pageSize);
 
     params = params.append('Container', container);
@@ -67,6 +72,7 @@ export class MessageService {
         next: response => setPaginatedResponse(response, this.paginatedResult)
       })
   }
+  
   getMessageThread(username: string) {
     return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
