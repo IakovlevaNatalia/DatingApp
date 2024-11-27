@@ -6,7 +6,6 @@ import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,12 +27,12 @@ export class PresenceService {
       this.hubConnection.start().catch(error => console.log(error));
 
       this.hubConnection.on('UserIsOnline', username => {
-        this.toastr.warning(username + ' has connected');
-    });
+        this.onlineUsers.update(users => [...users, username]);
+      });
 
       this.hubConnection.on('UserIsOffline', username => {
-        this.toastr.warning(username + ' has disconnected');
-    })
+        this.onlineUsers.update(users => users.filter(x => x !== username));
+      });
 
       this.hubConnection.on('GetOnlineUsers', usernames => {
         this.onlineUsers.set(usernames);
