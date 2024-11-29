@@ -15,6 +15,7 @@ export class UserManagementComponent implements OnInit {
   private adminService = inject(AdminService);
   private modalService = inject (BsModalService);
   users: User[] = [];
+
   bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
 
   ngOnInit(): void {
@@ -36,7 +37,7 @@ export class UserManagementComponent implements OnInit {
     this.bsModalRef = this.modalService.show(RolesModalComponent, initialState);
     this.bsModalRef.onHide?.subscribe({
       next: () => {
-        if(this.bsModalRef.content && this.bsModalRef.content.rolesUpdated) {
+        if (this.bsModalRef.content && this.bsModalRef.content.rolesUpdated) {
           const selectedRoles = this.bsModalRef.content.selectedRoles;
           this.adminService.updateUserRoles(user.username, selectedRoles).subscribe({
             next: roles => user.roles = roles
