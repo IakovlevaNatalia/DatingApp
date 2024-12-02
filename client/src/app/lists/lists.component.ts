@@ -26,7 +26,7 @@ export class ListsComponent implements OnInit, OnDestroy {
     switch (this.predicate) {
       case 'liked': return 'Members you like';
       case 'likedBy': return 'Members who like you';
-      default: return 'Mutual';
+      default: return 'Mutual'
     }
   }
 
@@ -44,4 +44,5 @@ export class ListsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.likesService.paginatedResult.set(null);
   }
+  
 }
