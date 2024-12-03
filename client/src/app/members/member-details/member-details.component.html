@@ -1,17 +1,15 @@
     <div class="row">
         <div class="col-4">
             <div class="card">
-                <img
-                 src="{{member.photoURL || 'assets/user.png'}}"
-                 alt = "{{member.knownAs}}"
-                 class="card-img img-thumbnail"
-                >
+                <img src="{{member.photoURL || 'assets/user.png'}}" alt = "{{member.knownAs}}"
+                 class="card-img img-thumbnail">
                 <div class="card-body">
                     @if (presenceService.onlineUsers().includes(member.username)) {
                     <div class="mb-2">
                         <i class="fa fa-user-circle text-success"></i> Online now
                     </div>
                 }
+
                     <div>
                         <strong>Location:</strong>
                         <p>{{member.city}}, {{member.country}}</p>
@@ -37,6 +35,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-8">
             <tabset class = "member-tabset" #memberTabs>
                 <tab heading="About {{member.knownAs}}" (selectTab)="onTabActivated($event)">
@@ -45,26 +44,23 @@
                     <h4>Looking for</h4>
                     <p>{{member.lookingFor}}</p>
                 </tab>
-                <tab heading="Interests">
-                    <h4>Interests</h4>
-                    <p>{{member.interests}}</p>
-                </tab>
+            <tab heading="Interests" (selectTab)="onTabActivated($event)">
+                <h4>Interests</h4>
+                <p>{{member.interests}}</p>
+            </tab>
                 <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">
                     @if (photoTab.active) {
-                    <gallery 
-                    [items]="images"
-                    [itemAutosize]="true"
-                    class="gallery"
-                    ></gallery>
+                    <gallery [items]="images" [itemAutosize]="true" class="gallery"></gallery>
                     }
+
                 </tab>
                 <tab heading="Messages" (selectTab)="onTabActivated($event)">
                     <app-member-messages 
                         [username]="member.username"
-
                         ></app-member-messages>
                 </tab>
             </tabset>
         </div>
+        
     </div>
 

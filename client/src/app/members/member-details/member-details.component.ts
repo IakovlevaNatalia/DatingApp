@@ -12,7 +12,6 @@ import { PresenceService } from '../../_services/presence.service';
 import { AccountService } from '../../_services/account.service';
 import { HubConnectionState } from '@microsoft/signalr';
 
-
 @Component({
   selector: 'app-member-details',
   standalone: true,
@@ -42,7 +41,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     })
 
     this.route.paramMap.subscribe({
-      next: _=> this.onRouteParamsChange()
+      next: _ => this.onRouteParamsChange()
     })
 
     this.route.queryParams.subscribe({
@@ -68,6 +67,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
       })
     }
   }
+
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     this.router.navigate([], {
@@ -83,6 +83,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     this.messageService.stopHubConnection();
   }
 }
+
   ngOnDestroy(): void {
     this.messageService.stopHubConnection();
   }
