@@ -9,10 +9,7 @@ import { HasRoleDirective } from '../_directives/has-role.directive';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [
-    FormsModule, BsDropdownModule, RouterLink, RouterLinkActive, HasRoleDirective],
-  providers: [
-  ],
+  imports: [FormsModule, BsDropdownModule, RouterLink, RouterLinkActive, HasRoleDirective],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -34,7 +31,5 @@ export class NavComponent {
   logout () {
     this.accountService.logout();
     this.router.navigateByUrl('/');
-    this.toastr.info('You have been logged out');
   }
-
 }
