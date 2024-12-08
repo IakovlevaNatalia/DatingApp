@@ -9,9 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    ReactiveFormsModule, NgIf, TextInputComponent, DatePickerComponent
-],
+  imports: [ReactiveFormsModule, NgIf, TextInputComponent, DatePickerComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -42,11 +40,11 @@ export class RegisterComponent implements OnInit {
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
     });
     this.registerForm.controls['password'].valueChanges.subscribe({
-      next: () =>this.registerForm.controls['confirmPassword'].updateValueAndValidity()
+      next: () => this.registerForm.controls['confirmPassword'].updateValueAndValidity()
     })
   }
 
-  matchValues(matchTo:string): ValidatorFn {
+  matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
       return control.value === control.parent?.get(matchTo)?.value ? null : {isMatching: true}
     }
